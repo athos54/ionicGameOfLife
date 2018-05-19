@@ -1,0 +1,17 @@
+celula {
+  .celula-box{
+    min-width: 30px;
+    min-height: 30px;
+    border: 1px solid black;
+    padding: 5px;
+    display: inline-block
+  }
+
+  .viva{
+    background: red
+  }
+
+  .muerta{
+    background: white
+  }
+}
