@@ -29,6 +29,20 @@ export class Tablero {
   }
 
   siguienteEstadoCelula(fila,columna){
+    let vecinos = this.obtenerEstadoVecinos(fila,columna)
+    let vivasAlRededor=0
+    for(let i in vecinos){
+      if(vecinos[i]=='O') vivasAlRededor++
+    }
+
+    if(vivasAlRededor>=3 && vivasAlRededor<=4){
+      return 'O'
+    }else{
+      return 'X'
+    }
+  }
+
+  obtenerEstadoVecinos(fila,columna){
     let vecinos={
       arriba:null,
       arribaDerecha:null,
@@ -87,17 +101,7 @@ export class Tablero {
     }else{
       vecinos.arribaIzquierda='F'
     }
-
-    let vivasAlRededor=0
-    for(let i in vecinos){
-      if(vecinos[i]=='O') vivasAlRededor++
-    }
-
-    if(vivasAlRededor>=3 && vivasAlRededor<=4){
-      return 'O'
-    }else{
-      return 'X'
-    }
+    return vecinos
   }
 
 }
