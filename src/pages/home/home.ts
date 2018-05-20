@@ -9,19 +9,38 @@ import { Helper } from '../../models/helper';
 })
 export class HomePage {
   tablero:any;
-  tiempo:number=1
+  tiempo:number=500
+  interval:any=null
 
   constructor(public navCtrl: NavController) {
-    this.tablero=new Tablero(15,15)
-    // console.log("this.tablero",this.tablero)
-    // setInterval(()=>{
-    //   this.siguiente()
-    // },this.tiempo*1000)
+    this.tablero=new Tablero(19, 22)
+  }
 
+  botonSiguiente(){
+    this.pararAutomatico()
+    this.siguiente()
   }
 
   siguiente(){
     this.tablero.celulas=this.tablero.siguienteEstadoCelulas()
-    // console.log("this.tablero.celulas",this.tablero.celulas)
   }
+
+  pararAutomatico(){
+    clearInterval(this.interval)
+    this.interval=null
+  }
+
+  automatico(){
+    if(this.interval==null){
+      this.siguiente()
+      this.interval = setInterval(()=>{
+        this.siguiente()
+      },this.tiempo)
+    }else{
+      this.pararAutomatico()
+      this.automatico()
+    }
+  }
+
+
 }

@@ -11,7 +11,7 @@ export class Tablero {
   generarTablero(numberoDeFilas,numeroDeColumnas): any {
     for(let i=0;i<numberoDeFilas;i++){
       this.celulas[i]=[]
-      for(let j=0;j<numberoDeFilas;j++){
+      for(let j=0;j<numeroDeColumnas;j++){
         this.celulas[i][j]=new Celula();
       }
     }
@@ -35,7 +35,7 @@ export class Tablero {
       if(vecinos[vecino].estado=='O') vivasAlRededor++
     }
 
-    if(vivasAlRededor>=3 && vivasAlRededor<=4){
+    if(vivasAlRededor>=3 && vivasAlRededor<=5){
       return 'O'
     }else{
       return 'X'

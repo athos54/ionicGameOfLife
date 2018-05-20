@@ -7,12 +7,22 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-<button ion-button (click)="siguiente()">siguiente</button>
-  <div *ngFor="let fila of tablero.celulas">
-    <span *ngFor="let celula of fila">
-      <celula estado={{celula.estado}}></celula>
-    </span>
+<ion-content>
+  <div class="micontenido">
+    <div *ngFor="let fila of tablero.celulas">
+      <span *ngFor="let celula of fila">
+        <celula estado={{celula.estado}}></celula>
+      </span>
+    </div>
   </div>
 
 </ion-content>
+
+<ion-footer>
+  <p>Si una celula tiene 3 o mas celulas vivas al rededor pero no mas de 5 vive en el siguiente turno, sino muere</p>
+  <input type="number" placeholder="Pon el tiempo" [(ngModel)]="tiempo"><br>
+  <button ion-button (click)="botonSiguiente()">Siguiente</button>
+  <button ion-button (click)="automatico()">Automatico</button>
+  <button ion-button (click)="pararAutomatico()">Parar</button>
+
+</ion-footer>
