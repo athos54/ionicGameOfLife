@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content padding>
-
+<button ion-button (click)="siguiente()">siguiente</button>
   <div *ngFor="let fila of tablero.celulas">
     <span *ngFor="let celula of fila">
-      <celula estado={{celula}}></celula>
+      <celula estado={{celula.estado}}></celula>
     </span>
   </div>
 

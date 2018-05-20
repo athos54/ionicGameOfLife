@@ -1,10 +1,10 @@
 import { Helper } from "./helper";
+import { Celula } from "./celula";
 
 export class Tablero {
   celulas:any=[]
 
   constructor(numberoDeFilas,numeroDeColumnas) {
-    console.log('Hello TableroProvider Provider');
     this.generarTablero(numberoDeFilas,numeroDeColumnas)
   }
 
@@ -12,7 +12,7 @@ export class Tablero {
     for(let i=0;i<numberoDeFilas;i++){
       this.celulas[i]=[]
       for(let j=0;j<numberoDeFilas;j++){
-        this.celulas[i][j]=Helper.trueOrFalse()
+        this.celulas[i][j]=new Celula();
       }
     }
   }
@@ -22,7 +22,7 @@ export class Tablero {
     for(let fila=0; fila<this.celulas.length;fila++){
       celulasNuevas[fila]=[]
       for(let columna=0;columna<this.celulas[fila].length;columna++){
-        celulasNuevas[fila][columna] = this.siguienteEstadoCelula(fila,columna)
+        celulasNuevas[fila][columna] = new Celula(this.siguienteEstadoCelula(fila,columna))
       }
     }
     return celulasNuevas
@@ -31,8 +31,8 @@ export class Tablero {
   siguienteEstadoCelula(fila,columna){
     let vecinos = this.obtenerEstadoVecinos(fila,columna)
     let vivasAlRededor=0
-    for(let i in vecinos){
-      if(vecinos[i]=='O') vivasAlRededor++
+    for(let vecino in vecinos){
+      if(vecinos[vecino].estado=='O') vivasAlRededor++
     }
 
     if(vivasAlRededor>=3 && vivasAlRededor<=4){
@@ -44,64 +44,29 @@ export class Tablero {
 
   obtenerEstadoVecinos(fila,columna){
     let vecinos={
-      arriba:null,
-      arribaDerecha:null,
-      derecha:null,
-      abajoDerecha:null,
-      abajo:null,
-      abajoIzquierda:null,
-      izquierda:null,
-      arribaIzquierda:null
+      arriba:{ estado:null, fila: fila-1, columna: columna },
+      arribaDerecha:{ estado:null, fila: fila-1, columna: columna+1 },
+      derecha:{ estado:null, fila: fila, columna: columna+1 },
+      abajoDerecha:{ estado:null, fila: fila+1, columna: columna+1 },
+      abajo:{ estado:null, fila: fila+1, columna: columna },
+      abajoIzquierda:{ estado:null, fila: fila+1, columna: columna-1 },
+      izquierda:{ estado:null, fila: fila, columna: columna-1 },
+      arribaIzquierda:{ estado:null, fila: fila-1, columna: columna-1 }
     }
-    let arriba
-    if(this.celulas[fila-1] && this.celulas[fila-1][columna]){
-      vecinos.arriba = this.celulas[fila-1][columna]
-    }else{
-      vecinos.arriba='F'
+
+    for(let vecino in vecinos){
+      vecinos[vecino].estado=this.estadoVecino(fila,columna,vecinos[vecino])
     }
-    let arribaDerecha
-    if(this.celulas[fila-1] && this.celulas[fila-1][columna+1]){
-      vecinos.arribaDerecha = this.celulas[fila-1][columna+1]
-    }else{
-      vecinos.arribaDerecha='F'
-    }
-    let derecha
-    if(this.celulas[fila] && this.celulas[fila][columna+1]){
-      vecinos.derecha = this.celulas[fila][columna+1]
-    }else{
-      vecinos.derecha='F'
-    }
-    let abajoDerecha
-    if(this.celulas[fila+1] && this.celulas[fila+1][columna+1]){
-      vecinos.abajoDerecha = this.celulas[fila+1][columna+1]
-    }else{
-      vecinos.abajoDerecha='F'
-    }
-    let abajo
-    if(this.celulas[fila+1] && this.celulas[fila+1][columna]){
-      vecinos.abajo = this.celulas[fila+1][columna]
-    }else{
-      vecinos.abajo='F'
-    }
-    let abajoIzquierda
-    if(this.celulas[fila+1] && this.celulas[fila+1][columna-1]){
-      vecinos.abajoIzquierda = this.celulas[fila+1][columna-1]
-    }else{
-      vecinos.abajoIzquierda='F'
-    }
-    let izquierda
-    if(this.celulas[fila] && this.celulas[fila][columna-1]){
-      vecinos.izquierda = this.celulas[fila][columna-1]
-    }else{
-      vecinos.izquierda='F'
-    }
-    let arribaIzquierda
-    if(this.celulas[fila-1] && this.celulas[fila-1][columna-1]){
-      vecinos.arribaIzquierda = this.celulas[fila-1][columna-1]
-    }else{
-      vecinos.arribaIzquierda='F'
-    }
+
     return vecinos
+
+  }
+
+  estadoVecino(fila,columna,vecino){
+    if(this.celulas[vecino.fila] && this.celulas[vecino.fila][vecino.columna]){
+      return this.celulas[vecino.fila][vecino.columna].estado
+    }
+
   }
 
 }
